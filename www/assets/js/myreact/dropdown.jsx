@@ -29,7 +29,8 @@ class Dropdown extends React.Component {
 		this.state = {
 			selectedValue:this.props.selectedValue,
 			selectedText: this.props.selectedText,
-			ulState: ''
+			ulState: '',
+			pState:'on'
 		}
 	}
 
@@ -48,7 +49,8 @@ class Dropdown extends React.Component {
 
 	_onSelectedItemClick (event){// handle ENTER KEY.....
 		return this.setState({
-			ulState:'on'
+			ulState:'on',
+			pState:''
 		})
 	}
 
@@ -58,26 +60,28 @@ class Dropdown extends React.Component {
 		return this.setState({
 			selectedValue: strOptionKey,
 			selectedText: strOptionText,
-			ulState:''
-		})
-
+			ulState:'',
+			pState:'on'
+		});
 	}
 
 	render () {    
 
 		var options = this.props.options;		
+		var selectBoxId = this.props.selectBoxId;
 
 		// states
 		var selectedValue = this.state.selectedValue;
 		var selectedText = this.state.selectedText;
 		var ulState = this.state.ulState; // 'on' || ''
+		var pState = this.state.pState;
 
 		return (
 			<div className="dropdown">
 				<label htmlFor={this.props.selectBoxId}>{this.props.selectBoxLabel}</label>
 
 				<select 
-					id={this.props.selectBoxId}		
+					id={selectBoxId}		
 					onChange={this._onSelectBoxChange.bind(this)} 									
 					name={this.props.selectBoxName}
 					className={this.props.selectBoxClassName}
@@ -109,20 +113,22 @@ class Dropdown extends React.Component {
 					role="presentation"
 					onClick={this._onSelectedItemClick.bind(this)} 
 					className="selectedItem" 
+					data-state={pState}
 					>					
 					{selectedText}
 				</p>
 
 				<ul 
 					role="presentation"
-					data-state={ulState?ulState:'default'} 
+					data-state={ulState} 
 					className="ulSelect">
 					{
 						each(options, (strOptionKey) => (
 							<li 
 								className="liSelect"
 								onClick={this._onLiClick.bind(this, strOptionKey, options[strOptionKey])} 
-								data-state={strOptionKey == selectedValue?'on':'default'}
+								data-state={strOptionKey == selectedValue?'on':''}
+								key={selectBoxId + '-' + strOptionKey}
 								>
 								{options[strOptionKey]}
 							</li>
