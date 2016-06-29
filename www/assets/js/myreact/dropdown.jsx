@@ -29,7 +29,7 @@ class Dropdown extends React.Component {
 		this.state = {
 			selectedValue:this.props.selectedValue,
 			selectedText: this.props.selectedText,
-			ulHidden: true
+			ulState: ''
 		}
 	}
 
@@ -41,13 +41,14 @@ class Dropdown extends React.Component {
 
 		return this.setState({
 			selectedValue: selectedValue,
-			selectedText: selectedText
+			selectedText: selectedText,
+			ulState: ''
 		})
 	}
 
 	_onSelectedItemClick (event){// handle ENTER KEY.....
 		return this.setState({
-			ulHidden:false
+			ulState:'on'
 		})
 	}
 
@@ -57,7 +58,7 @@ class Dropdown extends React.Component {
 		return this.setState({
 			selectedValue: strOptionKey,
 			selectedText: strOptionText,
-			ulHidden:true
+			ulState:''
 		})
 
 	}
@@ -65,23 +66,18 @@ class Dropdown extends React.Component {
 	render () {    
 
 		var options = this.props.options;		
-		var ulId = this.props.selectBoxId + '-ul';
-		var pId = this.props.selectBoxId + '-p';
-		var labelId = this.props.selectBoxId + '-label';
 
 		// states
 		var selectedValue = this.state.selectedValue;
 		var selectedText = this.state.selectedText;
-		var ulHidden = this.state.ulHidden; // true || false
+		var ulState = this.state.ulState; // 'on' || ''
 
 		return (
 			<div className="dropdown">
-				<label htmlFor={this.props.selectBoxId} id={labelId}>{this.props.selectBoxLabel}</label>
+				<label htmlFor={this.props.selectBoxId}>{this.props.selectBoxLabel}</label>
 
 				<select 
-					id={this.props.selectBoxId}	
-					role="select"
-					aria-controls={ulId + ' ' + pId}		
+					id={this.props.selectBoxId}		
 					onChange={this._onSelectBoxChange.bind(this)} 									
 					name={this.props.selectBoxName}
 					className={this.props.selectBoxClassName}
@@ -109,30 +105,24 @@ class Dropdown extends React.Component {
 
 				</select>
 
-				<p id={pId}
-					role="button"
-					aria-controls={ulId}
+				<p 
+					role="presentation"
 					onClick={this._onSelectedItemClick.bind(this)} 
 					className="selectedItem" 
-					data-selectedValue={selectedValue} 
-					aria-labelledby={labelId}
-					>
-					
+					>					
 					{selectedText}
 				</p>
 
-				<ul id={ulId} 
-					aria-hidden={ulHidden} 
+				<ul 
+					role="presentation"
+					data-state={ulState?ulState:'default'} 
 					className="ulSelect">
 					{
 						each(options, (strOptionKey) => (
 							<li 
-								className="liSelect"								
-								role="option"
-								aria-controls={this.props.selectBoxId + ' ' + pId} key={strOptionKey} 
+								className="liSelect"
 								onClick={this._onLiClick.bind(this, strOptionKey, options[strOptionKey])} 
-								aria-labelledby={labelId}								
-								aria-selected={selectedValue === strOptionKey}								
+								data-state={strOptionKey == selectedValue?'on':'default'}
 								>
 								{options[strOptionKey]}
 							</li>
