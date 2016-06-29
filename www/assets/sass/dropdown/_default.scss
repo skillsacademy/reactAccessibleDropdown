@@ -54,6 +54,11 @@
 	}
 	p[data-state='']{
 		border-bottom:1px solid #999;
+
+		&:before{
+		    border-width: 0 5px 8px;
+    		border-bottom-color: #383c3d;
+		}
 	}
 
 	ul[data-state='on']{
