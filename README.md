@@ -13,7 +13,7 @@
 5) visit this url inside a browser: 
 http://localhost:3000/default.htm
 
-6) Play with the dropdown, and notice the state changes to the <ul>, <li> and <p> to indicate communication between the dom nodes.
+6) Play with the dropdown, and notice the state changes to the &lt;ul&gt;, &lt;li&gt; and &lt;p&gt; to indicate communication between the dom nodes.
 
 This is a customizable component, so you can include this in, supplying different properties. 
 
